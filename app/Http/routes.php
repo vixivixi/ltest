@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/admin/{id}', function ($id) {
+    return 'hi i\'m contact'.$id;
+});
+
+Route::resource('post','PostsController');
+
+Route::get('/test/blade/{id}/{post}/{post2}','PostsController@blade');
