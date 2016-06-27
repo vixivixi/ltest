@@ -21,4 +21,5 @@ Route::get('/admin/{id}', function ($id) {
 
 Route::resource('post','PostsController');
 
-Route::get('/test/blade/{id}/{post}/{post2}','PostsController@blade');
+
+Route::get('/contact','PostsController@contact');

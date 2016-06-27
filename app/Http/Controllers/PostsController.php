@@ -13,6 +13,9 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function contact(){
+        return view('contact');
+    }
     public function index()
     {
         //
