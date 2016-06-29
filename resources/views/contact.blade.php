@@ -8,5 +8,4 @@
 @stop
 @section('footer')
 
-sex sex12
 @stop
