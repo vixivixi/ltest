@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdatePostsTableVote extends Migration
+class AddColPublishedAt extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class UpdatePostsTableVote extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
+            $table->timestamp('published_at')->nullable();
             //
-            $table->tinyInteger('vote')->nullable();
-
         });
     }
 
@@ -27,8 +26,8 @@ class UpdatePostsTableVote extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
+            $table->dropColumn('published_at');
             //
-            $table->dropColumn('vote');
         });
     }
 }

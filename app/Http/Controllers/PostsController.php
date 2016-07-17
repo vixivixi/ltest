@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
+use App\Post;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -18,7 +21,11 @@ class PostsController extends Controller
     }
     public function index()
     {
-        //
+//        return \Auth::user()->name;
+        // Добавили фильтр отображения Scope для фильтрации данных
+        $posts=Post::latest('published_at')->published()->get();
+//        return view('post.all')->with('posts',$posts);
+        return view('post.all',compact('posts'));
     }
 
     /**
@@ -28,7 +35,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.create');
     }
 
     /**
@@ -37,9 +44,17 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
+//    public function store(Request $request)
     {
-        //
+//        Auth::user();//задает переменную пользователя который сечас в системе
+//        $this->validate($request,['title'=>'required|min:5','body'=>'required']);
+        $post=new Post($request->all());
+        Auth::user()->posts()->save($post);
+        Post::create($request->all());
+        //$input['published_at']=Carbon::now();
+
+        return redirect('post');
     }
 
     /**
@@ -50,8 +65,11 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
-        echo 'posts';
+        $post= Post::findOrFail($id);
+//ИЗУЧАЕМ
+//        dd($post->created_at->diffForHumans());
+
+        return view('post.show',compact('post'));
     }
 
     /**
@@ -62,6 +80,8 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
+        $post= Post::findOrFail($id);
+        return view('post.edit',compact('post'));
         //
     }
 
@@ -72,8 +92,11 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
+        $post= Post::findOrFail($id);
+        $post->update($request->all());
+        return redirect('post');
         //
     }
 
